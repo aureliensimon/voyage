@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Across Ireland</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --irish-green: #169B62;
+            --soft-cream: #F5F3EE;
+            --warm-orange: #FF883E;
+            --deep-teal: #0D5C63;
+            --light-grey: #E8E4DF;
+            --text-dark: #2C2C2C;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background: var(--soft-cream);
+        }
+
+        
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--irish-green);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-tab {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .nav-tab:hover {
+            background: var(--soft-cream);
+            color: var(--irish-green);
+        }
+
+        .nav-tab.active {
+            background: var(--irish-green);
+            color: white;
+        }
+
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--irish-green);
+        }
+
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+        .hero {
+            height: 90vh;
+            background-image: url('img/bgmain.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.03) 10px,
+                rgba(255, 255, 255, 0.03) 20px
+            );
+            animation: drift 60s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: var(--warm-orange);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: Georgia, serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        
+        .stats-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            background: var(--soft-cream);
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--irish-green);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--deep-teal);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--deep-teal);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--warm-orange);
+        }
+
+        
+        .map-wrapper {
+            margin: 0 auto;
+            position: relative;
+            width: 500px; 
+            height: 700px; 
+        }
+
+        
+        .map-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            z-index: 1; 
+        }
+
+        
+        .map-wrapper .ireland-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+        }
+
+        .map-pin {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pinDrop 0.6s ease-out backwards;
+        }
+
+        @keyframes pinDrop {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(3px);
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .map-pin:hover {
+            transform: scale(1.4) !important;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .map-pin circle {
+            fill: var(--warm-orange);
+            stroke: white;
+            stroke-width: 2;
+            transition: all 0.3s ease;
+        }
+
+        .map-pin:hover circle {
+            fill: var(--irish-green);
+        }
+
+        .map-pin.highlight circle {
+            fill: var(--irish-green);
+        }
+
+        .map-pin.highlight:hover circle {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        
+        .journey-details {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .journey-card {
+            background: var(--soft-cream);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--irish-green);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .journey-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .journey-card h3 {
+            color: var(--deep-teal);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .journey-number {
+            display: inline-block;
+            background: var(--irish-green);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .content-text {
+            line-height: 2;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        
+        .quote-section {
+            background: var(--deep-teal);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.5rem;
+            line-height: 2;
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-size: 5rem;
+            opacity: 0.3;
+            display: block;
+        }
+
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .insight-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--warm-orange);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .insight-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-title {
+            font-size: 1.3rem;
+            color: var(--irish-green);
+            margin-bottom: 1rem;
+        }
+
+        
+        .advice-box {
+            background: linear-gradient(135deg, var(--warm-orange) 0%, #ff9f5a 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+
+        .advice-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .advice-list {
+            list-style: none;
+        }
+
+        .advice-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .advice-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        
+        .photo-placeholder {
+            background: var(--light-grey);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-style: italic;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        .stories-grid {
+            display: grid;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .story-header {
+            background: var(--irish-green);
+            color: white;
+            padding: 2rem;
+        }
+
+        .story-location {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-content {
+            padding: 2rem;
+        }
+
+        
+        footer {
+            background: var(--deep-teal);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .footer-shamrock {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-tabs.mobile-open {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .journey-details {
+                grid-template-columns: 1fr;
+            }
+
+            .map-wrapper {
+                padding: 1.5rem;
+            }
+        }
+
+        
+        .tooltip {
+            position: absolute;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            max-width: 250px;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .tooltip h4 {
+            color: var(--irish-green);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">☘️ Across Ireland</div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-tabs" id="navTabs">
+                <li class="nav-tab active" onclick="showPage('home')">Home</li>
+                <li class="nav-tab" onclick="showPage('map')">Journey Map</li>
+                <li class="nav-tab" onclick="showPage('stories')">Stories</li>
+                <li class="nav-tab" onclick="showPage('culture')">Cultural Insights</li>
+                <li class="nav-tab" onclick="showPage('advice')">Advice</li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <div class="page active" id="home">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Across Ireland</h1>
+                <p class="hero-subtitle">A Journey of Discovery, Culture, and Self-Growth</p>
+                <button class="cta-button" onclick="showPage('map')">Explore My Journey →</button>
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <h2 class="section-title">My Journey in Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">+40</span>
+                    <span class="stat-label">Locations Visited</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">+1500</span>
+                    <span class="stat-label">Kilometers Traveled</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Memories Created</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="quote-section">
+            Not all those who wander are lost.
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">About This Journey</h2>
+            <p class="content-text">
+                I was first supposed to do this international journey way earlier, but then... pandemic. Which made very difficult since borders were all closed and furthermore the situation wasn't getting easy to find somewhere to sleep, somewhere to work. So few years passed with internship and apprenticeship, I decided to make some months to finally do this journey that was on my mind for a long time. For the destination I already knew where I wanted to go, well to be fair there was two, Germany and Ireland were the two choices for me, and since I went for several weeks in Germany already a few years back I decided to choose Ireland for this one. The decision was also based on my currents needs, because even tho a lot of german can speak very good english, in order to improve mine, I prefer to live in a native english-speaking country. So now that we know where we're going, let's pack our bag and leave France for some time !
+            </p>
+            <p class="content-text">
+                My goal was to go alone (without any friend of family with me), to be fully emerge in the native population and with the strangers I will met on the way. It was a way to get out of my confort zone and we'll discuss here on how it went !
+            </p>
+            <div class="photo-placeholder"><img src="img/main2.jpg"/></div>
+        </section>
+    </div>
+
+    
+    <div class="page" id="map">
+        <div class="map-container">
+            <h2 class="section-title">Interactive Journey Map</h2>
+            <p style="text-align: center; color: var(--text-dark); margin-bottom: 2rem;">
+                Click on the pins to discover each location • Hover for quick info
+            </p>
+            
+            <div class="map-wrapper">
+                <img src="img/map.svg" />
+                <svg class="ireland-map" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+                    
+                    
+                    
+                    <g class="map-pin highlight" data-location="Cork" data-day="1-2" data-story="First steps in Ireland, driving on the left, city of churches" style="animation-delay: 0.1s">
+                        <circle cx="220" cy="600" r="16"/>
+                        <text x="220" y="605" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+
+                    
+                    <g class="map-pin" data-location="Killarney" data-day="4" data-story="National park, splendid views" style="animation-delay: 0.2s">
+                        <circle cx="140" cy="550" r="16"/>
+                        <text x="140" y="555" text-anchor="middle" fill="white" font-size="10" font-weight="bold">K</text>
+                    </g>
+
+                    <g class="map-pin" data-location="Dingle" data-day="6" data-story="Sea salt tasting, harbor exploration" style="animation-delay: 0.3s">
+                        <circle cx="50" cy="560" r="16"/>
+                        <text x="50" y="565" text-anchor="middle" fill="white" font-size="10" font-weight="bold">D</text>
+                    </g>
+
+                    <g class="map-pin" data-location="An Clochán" data-day="5" data-story="Music night at the pub" style="animation-delay: 0.4s">
+                        <circle cx="60" cy="540" r="16"/>
+                        <text x="60" y="545" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+
+                    
+                    <g class="map-pin" data-location="Limerick" data-day="10" data-story="Popular but nothing special" style="animation-delay: 0.5s">
+                        <circle cx="210" cy="480" r="16"/>
+                        <text x="210" y="485" text-anchor="middle" fill="white" font-size="10" font-weight="bold">L</text>
+                    </g>
+
+                    <g class="map-pin" data-location="Cliffs of Moher" data-day="12" data-story="Sunset by the cliffs" style="animation-delay: 0.6s">
+                        <circle cx="130" cy="430" r="16"/>
+                        <text x="130" y="435" text-anchor="middle" fill="white" font-size="10" font-weight="bold">M</text>
+                    </g>
+
+                    <g class="map-pin highlight" data-location="Galway" data-day="14" data-story="Street music, meeting a friend, local market" style="animation-delay: 0.7s">
+                        <circle cx="170" cy="375" r="16"/>
+                        <text x="170" y="380" text-anchor="middle" fill="white" font-size="10" font-weight="bold">G</text>
+                    </g>
+
+                    <g class="map-pin" data-location="Connemara" data-day="18" data-story="National park, wrong loop, met French guy" style="animation-delay: 0.8s">
+                        <circle cx="110" cy="370" r="16"/>
+                        <text x="110" y="375" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+
+                    
+                    <g class="map-pin" data-location="Sligo" data-day="21" data-story="Ugly town, crowded" style="animation-delay: 0.9s">
+                        <circle cx="220" cy="220" r="16"/>
+                        <text x="220" y="225" text-anchor="middle" fill="white" font-size="10" font-weight="bold">S</text>
+                    </g>
+
+                    <g class="map-pin" data-location="Donegal" data-day="25" data-story="Small city in the north" style="animation-delay: 1s">
+                        <circle cx="260" cy="150" r="16"/>
+                        <text x="260" y="155" text-anchor="middle" fill="white" font-size="10" font-weight="bold">D</text>
+                    </g>
+
+                    
+                    <g class="map-pin highlight" data-location="Giant's Causeway" data-day="30" data-story="World heritage, Canadian couple, French car (56)" style="animation-delay: 1.2s">
+                        <circle cx="410" cy="65" r="16"/>
+                        <text x="410" y="70" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+
+                    
+                    <g class="map-pin highlight" data-location="Clogerhead" data-day="35" data-story="Two seals, sunset - best night!" style="animation-delay: 1.3s">
+                        <circle cx="440" cy="300" r="16"/>
+                        <text x="440" y="305" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+
+                    
+                    <g class="map-pin" data-location="Wexford" data-day="41" data-story="Painted houses" style="animation-delay: 1.4s">
+                        <circle cx="420" cy="540" r="16"/>
+                        <text x="420" y="545" text-anchor="middle" fill="white" font-size="10" font-weight="bold">W</text>
+                    </g>
+
+                    <g class="map-pin" data-location="Waterford" data-day="43" data-story="Overhyped city" style="animation-delay: 1.5s">
+                        <circle cx="360" cy="545" r="16"/>
+                        <text x="360" y="550" text-anchor="middle" fill="white" font-size="10" font-weight="bold">W</text>
+                    </g>
+
+                    <g class="map-pin highlight" data-location="Coumshingan Lough" data-day="44" data-story="Dangerous climb, almost died!" style="animation-delay: 1.6s">
+                        <circle cx="310" cy="545" r="16"/>
+                        <text x="310" y="550" text-anchor="middle" fill="white" font-size="10" font-weight="bold">C</text>
+                    </g>
+                </svg>
+            </div>
+
+            
+            <div id="locationDetails" style="display: none; margin-top: 3rem;">
+                <div class="journey-details" id="detailsContent">
+                    
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="tooltip" id="tooltip">
+            <h4 id="tooltipTitle"></h4>
+            <p id="tooltipText"></p>
+        </div>
+    </div>
+
+    
+    <div class="page" id="stories">
+        <section class="content-section">
+            <h2 class="section-title">Journey Stories</h2>
+            <p style="text-align: center; color: var(--text-dark); margin-bottom: 2rem;">
+                Detailed accounts of the most memorable moments from my 50-day adventure
+            </p>
+
+            <div class="stories-grid">
+                <div class="story-card">
+                    <div class="story-header">
+                        <div class="story-location">📍 Ferry & Cork</div>
+                        <h3 class="story-title">First Steps in Ireland</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>I embark on the very famous "Pont-Aven" and we're already leaving the coast of France and heading straight to Ireland. While looking at the french shores getting smaller and smaller I feel very mixed, it was at the same way very exiting and yet I was already missing France. I try to have the best sleep as I can on this sea that be rough some time (and while I was on board, the waves were rough sometimes).</p>
+                        <div class="photo-placeholder"><img src="img/boat.jpg" /></div>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--deep-teal)">
+                        <div class="story-location">🌊 Dingle & Dunquin</div>
+                        <h3 class="story-title">Coastal Discoveries</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>After a few days Arriving in Cork and discovering the first irish town and people, the mixed feeling I had earlier was completly gone. It only took a couple days to get used to how lived there, and I was even starting to feel <i>I always lived this way</i>. I did settle in some youth hostel for a while, and connecting with people allowed me to find a place where I could have a base camp for me and have a bit more personnal space for myself, because I was all day long with people, and almost everytime new people, since I'm only here for a couple days, so having some space for me was really necessary.</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--irish-green)">
+                        <div class="story-location">🦜 Caherner</div>
+                        <h3 class="story-title">The Bird Whisperer</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>This journey has also come with a lot of adventure. In Cahernery I find a small barn where the owners have a lot of animals and lot of wildlife around it. When I open the window of my room, I heard a bird that was really close to me but can't manage to it. I downloaded an app to identify the bird, and it happens that the next morning I saw it sitting on a branch in the same tree I heard him the last day ! And yes, the photo did match with the bird so the app has done a good job !
+</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--warm-orange)">
+                        <div class="story-location">🥾 Ruhan</div>
+                        <h3 class="story-title">Irish Friendliness</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>While for the first part I was a lot in town and in what we can call urban area (even tho it's not Paris), I went a lot outside to discover the nature and irish landscape. It's a very refreshing experience, and even more considering the fact while hiking in nature, we often met other people, and they all went naturally to engage a conversation and talk to you, they do like to have a chat, to suggest new activites or places to discover near where they lived.</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--irish-green)">
+                        <div class="story-location">🎸 Galway</div>
+                        <h3 class="story-title">City of Music & Coincidence</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>It's under a very nice weather that I can enjoy Galway. It was a beautiful city with a local market, and even... french people ! In fact I just met a friend (that I didn't know was in Ireland at this time), so we did go around the city together listening to the instruments playing in the streets and just feeling the city's musical energy.</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--deep-teal)">
+                        <div class="story-location">🏔️ Connemara National Park</div>
+                        <h3 class="story-title">Wrong Loop, Right Experience</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>When I said earlier that irish people doesnt hesitate to indicate you the right direction if you're lost, well I should have used this because during a hiking loop, in order to cut the crowd, I find myself completly lost. It took several minuts before I could find a path and backtrack what I've done. At the end I did twice the time needed for the loop, but it was such a funny experience that spending the day trying to find my path, I felt like a explorer.</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--warm-orange)">
+                        <div class="story-location">⛰️ The Pilgrim Path</div>
+                        <h3 class="story-title">The Path Everyone Recommended</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>EVERYONE told me to see this ! Most of them were from french people that already went to Ireland. So I did finally experience this legendary path. Crossing mountains and big hills, navigating around sheep on the road, and understanding why this route holds such a special place in people visiting this place and also for the local inhabitants. Sadly no pictures can show how beautiful this place is, so, if you're willing to someday visit Ireland, I'm now one of the people recommanding you to visit this place !</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--irish-green)">
+                        <div class="story-location">⬡ Giant's Causeway</div>
+                        <h3 class="story-title">World Heritage & Small World</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>We're not leaving beautiful landscape and stick by the sea to visit the Giant's Causeway. While getting there with a car I rent and looking for a parking slot next to the site, I found a empty space near a black car, black car that happend to look familiar, and looking at the place I immediatly regonize the brittany flag and the number 56 ! - a reminder that even in remote Ireland, you're never far from home...</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--deep-teal)">
+                        <div class="story-location">🦭 Clogerhead</div>
+                        <h3 class="story-title">The Perfect Evening</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>Maybe one of the best evening I had there. I notice two seals playing in the water while having a breathtaking sunset. Being able to just have to seat there in silence observing nature was a privilege.</p>
+                        <div class="photo-placeholder"><img src="img/sunset.jpg"/></div>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--warm-orange)">
+                        <div class="story-location">💪 Coumshingan Lough</div>
+                        <h3 class="story-title">The Near-Death Climb</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>The guidebook called it "challenging." That was criminally understated. Halfway up, I scramble over wet rocks with a 200-meter drop below, my foot slipped. At this moment I was thinking : "this is how hikers die." But turning back seemed more dangerous than continuing. Reaching the lake wasn't triumph - it was survival matters at this point. Even tho the water was beautiful, reflecting clouds like perfect glass. Was it worth ? I will answer after my hands stop shaking.</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--irish-green)">
+                        <div class="story-location">💶 Bohadoon</div>
+                        <h3 class="story-title">Irish Generosity</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>I needed some place to sleep between two destinations, I found a small campsite, BUT cash only, with the nearest ATM 20km away. I had €8, the sign said €15. The owner, gray-bearded and weathered, counted my coins twice. He asked me "You've come far?", looking at my worn boots and backpack. When I explained my journey, he pocketed the €8 and waved me through !</p>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-header" style="background: var(--deep-teal)">
+                        <div class="story-location">🚢 Return to Cork</div>
+                        <h3 class="story-title">Full Circle</h3>
+                    </div>
+                    <div class="story-content">
+                        <p>Back where we started, spending the last days in the same city as when I arrived here. Cork's streets felt familliar now. I even caught myself giving directions to confused tourists, recommending hidden spots only locals know. I was now ready to get back on the ferry and head back to France with a head full of memories of thoses last months.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+    <div class="page" id="culture">
+        <section class="content-section">
+            <h2 class="section-title">Cultural Discoveries & Personal Growth</h2>
+            
+            <h3 style="font-size: 1.8rem; color: var(--irish-green); margin: 3rem 0 2rem;">What This Experience Taught Me</h3>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-icon">🗣️</div>
+                    <h4 class="insight-title">Language Adaptation</h4>
+                    <p>First advice is : don't put too much pression over yourself. Going in a native speaking english might seems overwhelming and all you can think of is how you're not going to understand every sentence that's going to be said to you or that you won't be able to say a word without pausing for a whole minut to find the next word you want to say. Irish people are notably patient with language learners compared to other anglophone countries, so don't be afraid to make mistakes while talking, the worst you can have a is laugh because the sentence sounded funny to them. You will also notice that once you think you've mastered the irish accent, in reality you only mastered the Cork's accent, and find yourself learning from sratch the Belfast's sharper accent, you have to treat each as a distinct dialect with fresh attention, and just like the tone of the voice, the speed varies wildly, rural speaks often talk way faster than Dubliners, and I'm not even talking about west coast ! You will also learn some "grand"/"craic" and more special words like this, a very unique way to improve your local vocabulary !</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🤝</div>
+                    <h4 class="insight-title">Social Openness</h4>
+                    <p>While in France conversations with strangers can feel formal or reserved, here is Ireland it's night and day, Irish people strike up conversations at bus stops, shops, anywhere.  "Where are you from?" "What brings you here?" within minutes of knowing each other, they are not getting instrusive or investigating on you but it's friendly interest. When you go outside in a pub for example, sharing tables with strangers is normal. If you decide to be closed and refuse to chat when someone sits nearby, you WILL appears hostile. And don't hesitate to show fully yourself, french's tendency to stay reserved can be reads as unfriendly, and showing enthusiasm/disappointment/surprise is expected and very appreciated !</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🎯</div>
+                    <h4 class="insight-title">Adaptability</h4>
+                    <p>Technicals details here : Cash is still king rurally, unlike card-everywhere France, many rural pubs/shops are cash-only and ATMs are genuinely 20km+ apart in Donegal/Mayo. And always be prepared for the next day in each scenario, because irish rain vocabulary is extensive and minimizing : a "soft day" mean steady rain and "grand stretch" can assume a brief sun between downpours, so carry rain gear always, even in sunshine, the atlantic coast is especially unpredictable there. So plan, but relax,  booking ahead for example is less critical than France, locals will find you somewhere to sleep is you really need too. Try as much to focus on what you can control and let the human interactions do the rest !</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">⏰</div>
+                    <h4 class="insight-title">Relationship with Time</h4>
+                    <p>First thing you need to understand: "I'll be there in five minutes" in Ireland is not a promise, it's an optimistic aspiration. Coming from France where being 10 minutes late requires apologies and a valid excuse, you'll find yourself waiting 20-30 minutes past the agreed time and nobody bats an eye. "Irish time" is real and fighting it will only frustrate you. Meetings operate differently too - "let's meet Tuesday" without specifying morning or afternoon is completely normal, you're expected to text day-of to confirm the actual time. Business meetings start with 15 minutes of genuine small talk before anyone mentions work, rushing straight to the agenda reads as rude and transactional. You will also discover "island time" becomes even more elastic the further west you go, Connemara operates on an entirely different temporal plane than Dublin, and trying to schedule three things in one day out there is adorably naive to locals.</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🌍</div>
+                    <h4 class="insight-title">Cultural Awareness</h4>
+                    <p>Ireland's culture hits different once you stop trying to decode it through a French lens and just let it wash over you. Hospitality here isn't the polite-but-distant French courtesy where you'd never dream of bothering someone. It's genuine ! See by yourself : I once asked for directions to a shop in Sligo and ended up at a family dinner three hours later, meeting cousins and being fed until I couldn't move. That's just Tuesday here. The Gardaí too, they're nothing like the French police's formal distance—they'll stop their patrol car to help you jumpstart your vehicle or have a proper chat about the weather, treating you like a neighbor who just happens to need directions !</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🎒</div>
+                    <h4 class="insight-title">Independence</h4>
+                    <p>Going solo was terrifying at first, not going to lie. I felt like losing every safety nets I had : My friends, my neighborhood café, my predictable routine, etc. And suddenly you're dopped there and every single decision was on me. Where am I sleeping tonight? How do I get there? What do I do when the plan I spent hours crafting completely falls apart? In Kilkenny, I missed the last bus by literally two minutes and had to scramble for a hostel with zero booking, my phone at 12% battery, frantically messaging every place that looked remotely available. In Connemara, I tackled a solo hike through terrain that looked way easier on the map, no signal, just me and my questionable sense of direction, having to trust my gut on which path actually led back to civilization. But here's the thing—each tiny disaster you survive makes you realize you're more capable than you thought. That flat tire on a back road in Mayo? Fixed it myself with help from a farmer who barely spoke English but communicated entirely through gestures. Ireland doesn't really coddle you, that's for sure, but it throws situations at you and watches you figure it out... and somehow you do !
+
+</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.8rem; color: var(--irish-green); margin: 4rem 0 2rem;">Professional Skills Developed</h3>
+            <div class="content-text">
+                <p>Working for a few months in a restaurant (which is a job I have never done in France before) in a new place you've just arrived, with irish coworkers AND from all over the world, you have to develop many skills in order to have a great experience. The first one if of course teamwork, especially in this field, you can't succeed alone and you HAVE to communicate, even if at the start it's everyone communicating in half-English, half-gestures. I learned to read people fast : who needs backup without asking, when to jump in, when to stay in your lane, the cultural sensitivity stops being abstract when you're working alongside Irish locals and Polish delivery drivers. Another thing about customer service in Ireland : it's not the scripted French politeness, it's genuine banter while you're exhausted and they're drunk, staying patient when they can't decide what they want, handling complaints without taking them personally. This builds resilience and emotional intelligence you can't learn in school.</p>
+            </div>
+        </section>
+    </div>
+
+    
+    <div class="page" id="advice">
+        <section class="content-section">
+            <h2 class="section-title">Advice for Future Travelers</h2>
+            
+            <div class="advice-box">
+                <h3 class="advice-title">✨ My Recommendations</h3>
+                <ul class="advice-list">
+                    <li><strong>Most Recommended Experience:</strong>Do the Pilgrim Path, seriously. Not because it's on some tourist list, but because a random local at a pub told me about it and it ended up being the most raw, authentic Irish experience I had. Try to enjoy more small villages over cities, every single time—places like An Clochán where you're the only outsider and locals actually remember your name by day two. The traditional music scene isn't a tourist attraction, it's real life here, so find those tiny pubs in Doolin or Dingle where sessions happen organically, not on a schedule for tour groups.</li>
+                    <li><strong>Life-Changing Moment:</strong>That evening in Clogerhead watching the sunset alone after a brutal day, realizing I was genuinely okay being by myself thousands of kilometers from home. But also those unplanned music nights in random pubs where strangers became friends within three songs, and yeah, that absolutely terrifying climb that nearly killed me but taught me more about my limits than any safe experience ever could. Sometimes the moments that change you aren't comfortable.</li>
+                    <li><strong>Hidden Gems:</strong>An Clochán : nobody goes there, it's magnificently overlooked. The small beaches near Donegal that aren't on Google Maps but locals casually mention. Farmer's markets in towns like Skibbereen where you eat better for €5 than any Dublin restaurant charges €25 for. Those random coastal loops that aren't official trails but someone says "ah just walk that way, it's grand" and you discover views that aren't on Instagram yet.</li>
+                    <li><strong>What to Skip:</strong>Sligo was... fine? Just fine. Waterford felt like it was trying too hard to be interesting and ended up generic. The Cliffs of Moher are stunning but absolutely swarmed—go literally anywhere else on the coast for similar views and zero crowds. Temple Bar in Dublin is a tourist trap, full stop. Any pub that has its traditional music schedule printed on glossy signs outside is probably performing Irishness rather than living it.</li>
+                    <li><strong>Practical Tips:</strong>ALWAYS carry cash, like €100+ minimum, because rural Ireland still operates on it and the tiny camping spot or perfect pub is cash-only for sure. Download offline maps because signal disappears the moment you leave cities. Rain gear isn't optional, I don't care if it's sunny when you leave, pack it anyway. If you play any instrument, bring it, sessions welcome everyone.</li>
+                    <li><strong>Mindset Advice:</strong>Say yes to random recommendations from locals, that's how I ended up on the Pilgrim Path and it was incredible. Embrace getting lost, some of my best days started with "I have no idea where I am." Stay open to conversations—that person at the bus stop might invite you to a family dinner or tell you about a hidden beach. Be ready to completely trash your plans when something better appears. Don't be precious about accommodation, some of my best sleeps were in the most unconventional spots, and some of my worst were in "proper" places.</li>
+                </ul>
+            </div>
+
+            <h3 style="font-size: 1.8rem; color: var(--irish-green); margin: 4rem 0 2rem;">Practical Considerations</h3>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-icon">🚗</div>
+                    <h4 class="insight-title">Transportation</h4>
+                    <p>Driving on the left is genuinely terrifying for about 48 hours, then your brain rewires and it's fine. Renting a car gives you freedom that public transport simply cannot match—those hidden gems and random detours are only accessible with your own wheels. While parking in cities is a nightmare and expensive, rural let you park literally anywhere that isn't actively someone's driveway. The roads are absurdly narrow, you will meet tractors and sheep, you will have to reverse 200 meters because two cars can't pass, accept this reality and don't stress. Roundabouts everywhere, get comfortable with them fast. Navigation apps work but locals' directions are often better, even when they sound insane like "turn at the blue house, you'll know it.</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">🏕️</div>
+                    <h4 class="insight-title">Accommodation</h4>
+                    <p>Try to mix everything : camping when weather permits and you want to save money, hostels when you need humans and showers, B&Bs when you want actual comfort and a massive breakfast. I slept in parking lots, barns (with permission of course !), official campsites, and one genuinely sketchy hostel I left after one night. Flexibility is crucial because booking everything ahead kills spontaneity, but having zero plan means you might end up scrambling at 9pm. Cash-only places are common, especially small campings and family-run B&S, so that cash stash is essential.</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">💰</div>
+                    <h4 class="insight-title">Budget Tips</h4>
+                    <p>Ireland isn't cheap, accept that upfront. Camping and self-catering saves massive money—supermarket meals versus restaurant meals is like €5 versus €20. Always carry cash because ATMs get sparse and fees add up. Pubs are expensive but skipping them means missing the culture, so budget for a few pints per week minimum. Free camping spots exist but require research and boldness. Petrol is expensive, factor that into your driving costs.</p>
+                </div>
+
+                <div class="insight-card">
+                    <div class="insight-icon">📱</div>
+                    <h4 class="insight-title">Tech & Apps</h4>
+                    <p>Google Maps offline download saved me repeatedly when signal vanished. I kept a voice note journal while driving that captured thoughts I'd have forgotten otherwise. Spotify offline playlists for those long solo drives. WhatsApp for staying connected with family without international charges destroying me. Honestly didn't need much else...</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.8rem; color: var(--irish-green); margin: 4rem 0 2rem;">Final Thoughts</h3>
+            <div class="content-text">
+                <p>If you're a student considering international experiences, stop overthinking it and just go. Yes it's scary, yes you'll mess up, yes there will be moments you want to quit and go home (I had plenty to be fair). But even the hard moments, become the stories that define the trip. The value isn't in doing everything perfectly, it's in showing up and being open to whatever happens. Solo travel specifically forces growth that group travel never will. There's no one to hide behind, no one to make decisions for you, no safety net when things go wrong except your own resourcefulness. It's uncomfortable and lonely sometimes, but that discomfort is where you actually learn who you are outside your normal context. Ireland's smallness and friendliness makes it an ideal place for this challenging enough to push you, safe enough that you won't genuinely get lost forever.</p>
+            </div>
+        </section>
+    </div>
+
+    
+    <footer>
+        <div class="footer-shamrock">☘️</div>
+        <p>Across Ireland</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">Go raibh maith agat, Ireland 🇮🇪</p>
+    </footer>
+
+    <script>
+        
+        function showPage(pageId) {
+            
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            
+            document.getElementById(pageId).classList.add('active');
+            
+            
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            
+            document.getElementById('navTabs').classList.remove('mobile-open');
+            
+            
+            window.scrollTo(0, 0);
+        }
+
+        
+        function toggleMobileMenu() {
+            document.getElementById('navTabs').classList.toggle('mobile-open');
+        }
+
+        
+        document.querySelectorAll('.map-pin').forEach(pin => {
+            pin.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                const location = this.getAttribute('data-location');
+                const day = this.getAttribute('data-day');
+                const story = this.getAttribute('data-story');
+                
+                document.getElementById('tooltipTitle').textContent = `${location}`;
+                document.getElementById('tooltipText').textContent = story;
+                
+                tooltip.classList.add('visible');
+            });
+            
+            pin.addEventListener('mousemove', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.style.left = (e.pageX + 15) + 'px';
+                tooltip.style.top = (e.pageY + 15) + 'px';
+            });
+            
+            pin.addEventListener('mouseleave', function() {
+                
+                timeout = setTimeout(() => {
+                    document.getElementById('tooltip').classList.remove('visible');
+                }, 2000);
+            });
+        });
+
+        
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
+            }
+        });
+
+        
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const pageMap = {
+                    'Home': 'home',
+                    'Journey Map': 'map',
+                    'Stories': 'stories',
+                    'Cultural Insights': 'culture',
+                    'Advice': 'advice'
+                };
+                const pageId = pageMap[this.textContent];
+                if (pageId) {
+                    showPage(pageId);
+                }
+            });
+        });
+
+        
+        const observeCards = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.story-card, .insight-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observeCards.observe(card);
+        });
+
+        
+        document.querySelectorAll('.map-pin').forEach((pin, index) => {
+            pin.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = 'true';
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    animateCounter(statNumbers[0], '+40');
+                    animateCounter(statNumbers[1], '+1500');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
